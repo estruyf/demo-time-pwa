@@ -67,9 +67,6 @@ export const NextDemo: React.FC<NextDemoProps> = ({
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30 rounded-lg p-4">
             <h3 className="font-semibold text-white text-lg">{nextDemo.title}</h3>
-            {nextDemo.id && (
-              <p className="text-sm text-blue-300 mt-1">ID: {nextDemo.id}</p>
-            )}
           </div>
 
           <div className="flex items-center gap-3 text-sm">

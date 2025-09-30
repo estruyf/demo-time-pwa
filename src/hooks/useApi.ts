@@ -64,13 +64,13 @@ export const useApi = () => {
   );
 
   const runById = useCallback(
-    async (id: string, bringToFront = true) => {
+    async (stepIndex: number, bringToFront = true) => {
       if (!connectionStatus.connected || !connectionStatus.url) {
         throw new Error('Not connected to API');
       }
 
-      const url = new URL(`${connectionStatus.url}/api/runById`);
-      url.searchParams.set('id', id);
+      const url = new URL(`${connectionStatus.url}/api/runByIndex`);
+      url.searchParams.set('index', stepIndex.toString());
       url.searchParams.set('bringToFront', bringToFront.toString());
 
       const response = await fetch(url.toString());
