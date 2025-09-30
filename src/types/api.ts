@@ -21,6 +21,7 @@ export interface DemoStep {
     arguments: any[];
   };
   contextValue: string;
+  id?: string;
 }
 
 export interface DemoFile {

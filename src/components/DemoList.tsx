@@ -4,16 +4,16 @@ import { Icon } from 'vscrui';
 
 interface DemoListProps {
   apiData: ApiData;
-  onRunById: (stepIndex: number, bringToFront?: boolean) => Promise<void>;
+  onRunById: (id: string, bringToFront?: boolean) => Promise<void>;
 }
 
 export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const nextItemRef = useRef<HTMLDivElement>(null);
 
-  const handleRunDemo = async (stepIndex: number) => {
+  const handleRunDemo = async (id: string) => {
     try {
-      await onRunById(stepIndex, true);
+      await onRunById(id, true);
     } catch (error) {
       console.error('Failed to run demo:', error);
     }
@@ -86,31 +86,34 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
               <div
                 key={index}
                 ref={isNext ? nextItemRef : null}
-                className={`flex items-center gap-3 py-3 transition-all duration-200 cursor-pointer hover:bg-gray-700/20 rounded-lg px-3 -mx-3 ${
-                  isNext ? 'bg-[#FFD23F]/10' : ''
-                }`}
-                onClick={() => handleRunDemo(step.stepIndex)}
+                className={`flex items-center gap-3 py-3 transition-all duration-200 hover:bg-gray-700/20 rounded-lg px-3 -mx-3 ${isNext ? 'bg-[#FFD23F]/10' : ''} ${step.id ? 'cursor-pointer' : ''}`}
+                onClick={step.id ? () => handleRunDemo(step.id) : undefined}
               >
                 <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                   {isExecuted ? (
-                    <Icon name="pass-filled" className="text-green-600" size={24} />
+                    <Icon name={step.iconPath.id as never} className="!text-[#4ade80]" size={18} />
                   ) : isNext ? (
-                    <Icon name="circle-large-filled" className="text-[#FFD23F]" size={16} />
+                    <Icon name={step.iconPath.id as never} className="!text-[#FFD23F]" size={18} />
                   ) : (
-                    <Icon name="chevron-right" className="text-gray-500" size={24} />
+                    <Icon name={step.iconPath.id as never} className="!text-gray-500" size={18} />
                   )}
                 </div>
                 <span
-                  className={`font-medium text-base ${
-                    isNext
-                      ? 'text-white font-semibold'
-                      : isExecuted
+                  className={`font-medium text-base ${isNext
+                    ? 'text-white font-semibold'
+                    : isExecuted
                       ? 'text-gray-400'
                       : 'text-gray-200'
-                  }`}
+                    }`}
                 >
                   {step.originalLabel}
                 </span>
+
+                {
+                  step.id && (
+                    <Icon name={`play`} className={`isExecuted ? 'text-gray-400' : 'text-gray-200'} ml-auto`} size={16} />
+                  )
+                }
               </div>
             );
           })}

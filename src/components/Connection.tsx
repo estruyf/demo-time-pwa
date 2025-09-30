@@ -28,13 +28,6 @@ export const Connection: React.FC<ConnectionProps> = ({
 
   return (
     <div className="card">
-      <div className="text-center mb-8">
-        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
-          Connect to Demo Time
-        </h2>
-        <p className="text-sm md:text-base text-gray-400">Enter your Demo Time API server address</p>
-      </div>
-
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label htmlFor="url" className="block text-sm font-medium text-gray-300 mb-2">
@@ -49,8 +42,8 @@ export const Connection: React.FC<ConnectionProps> = ({
             className="input-field w-full text-base md:text-lg"
             disabled={loading}
           />
-          <p className="text-xs text-gray-500 mt-2">
-            Usually localhost:3710 when running Demo Time
+          <p className="text-xs text-gray-300 mt-2">
+            Use the URL to your Demo Time API server (e.g., <code>localhost:3710</code> or your <code>ngrok</code> URL).
           </p>
         </div>
 
@@ -78,6 +71,18 @@ export const Connection: React.FC<ConnectionProps> = ({
         </button>
       </form>
 
+      <div className="mt-4 text-sm text-gray-300">
+        <a
+          href="https://demotime.show"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#FFD23F] underline hover:opacity-90"
+        >
+          Visit Demo Time
+        </a>
+        <span className="ml-2">for docs, examples, and release notes.</span>
+      </div>
+
       <div className="mt-6 bg-gray-800/20 border border-gray-700/30 rounded-lg p-4">
         <h3 className="font-semibold text-[#FFD23F] text-sm mb-2">
           Quick Setup
@@ -89,11 +94,15 @@ export const Connection: React.FC<ConnectionProps> = ({
           </li>
           <li className="flex items-start gap-2">
             <span className="text-[#FFD23F] font-semibold">2.</span>
-            <span>Enter the API URL above</span>
+            <span>Start <code>ngrok http 3710</code></span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-[#FFD23F] font-semibold">3.</span>
-            <span>Control demos remotely</span>
+            <span>Enter the <code>ngrok</code> URL above</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-[#FFD23F] font-semibold">4.</span>
+            <span>Click <code>Connect to Demo Time</code></span>
           </li>
         </ol>
       </div>

@@ -2,6 +2,7 @@ import { useApi } from './hooks/useApi';
 import { Connection } from './components/Connection';
 import { DemoList } from './components/DemoList';
 import { InstallPrompt } from './components/InstallPrompt';
+import 'vscrui/dist/codicon.css';
 
 function App() {
   const {
