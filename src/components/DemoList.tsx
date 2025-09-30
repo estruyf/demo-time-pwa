@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ApiData, DemoStep } from '../types/api';
 import { Icon } from 'vscrui';
 
@@ -8,6 +8,9 @@ interface DemoListProps {
 }
 
 export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const nextItemRef = useRef<HTMLDivElement>(null);
+
   const handleRunDemo = async (stepIndex: number) => {
     try {
       await onRunById(stepIndex, true);
@@ -27,9 +30,27 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
     return apiData.nextDemo?.title === step.originalLabel;
   };
 
+  useEffect(() => {
+    if (nextItemRef.current && scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const element = nextItemRef.current;
+
+      const containerHeight = container.clientHeight;
+      const elementTop = element.offsetTop;
+      const elementHeight = element.clientHeight;
+
+      const scrollTo = elementTop - (containerHeight / 2) + (elementHeight / 2);
+
+      container.scrollTo({
+        top: scrollTo,
+        behavior: 'smooth'
+      });
+    }
+  }, [apiData.nextDemo]);
+
   return (
-    <div className="card">
-      <div className="mb-6">
+    <div className="card flex flex-col h-full">
+      <div className="mb-6 flex-shrink-0">
         <h2 className="text-2xl font-bold text-white">
           All Demos
         </h2>
@@ -44,7 +65,11 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
           </p>
         </div>
       ) : (
-        <div className="space-y-1">
+        <div
+          ref={scrollContainerRef}
+          className="space-y-1 overflow-y-auto flex-1 -mx-6 px-6"
+          style={{ scrollbarGutter: 'stable' }}
+        >
           {allSteps.map((step, index) => {
             const isExecuted = step.hasExecuted;
             const isNext = isNextDemo(step);
@@ -52,6 +77,7 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
             return (
               <div
                 key={index}
+                ref={isNext ? nextItemRef : null}
                 className={`flex items-center gap-3 py-3 transition-all duration-200 cursor-pointer hover:bg-gray-700/20 rounded-lg px-3 -mx-3 ${
                   isNext ? 'bg-[#FFD23F]/10' : ''
                 }`}

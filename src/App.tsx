@@ -16,9 +16,9 @@ function App() {
   } = useApi();
 
   return (
-    <div className="min-h-screen bg-[#202736] text-white pb-32">
+    <div className="min-h-screen bg-[#202736] text-white flex flex-col">
       <InstallPrompt />
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <div className="container mx-auto px-4 py-6 max-w-4xl flex-shrink-0">
         <header className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-14 h-14 bg-[#FFD23F] rounded-xl flex items-center justify-center shadow-lg">
@@ -40,15 +40,17 @@ function App() {
             onConnect={connect}
             onDisconnect={disconnect}
           />
-
-          {connectionStatus.connected && apiData && (
-            <DemoList
-              apiData={apiData}
-              onRunById={runById}
-            />
-          )}
         </div>
       </div>
+
+      {connectionStatus.connected && apiData && (
+        <div className="container mx-auto px-4 max-w-4xl flex-1 overflow-hidden pb-32">
+          <DemoList
+            apiData={apiData}
+            onRunById={runById}
+          />
+        </div>
+      )}
 
       {connectionStatus.connected && apiData && (
         <div className="fixed bottom-0 left-0 right-0 bg-[#1a1f2e] border-t border-gray-700/50 shadow-2xl">
