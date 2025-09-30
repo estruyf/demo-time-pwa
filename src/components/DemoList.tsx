@@ -58,8 +58,8 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
 
   return (
     <div className="card flex flex-col h-full">
-      <div className="mb-6 flex-shrink-0">
-        <h2 className="text-2xl font-bold text-white">
+      <div className="mb-4 flex-shrink-0">
+        <h2 className="text-xl font-bold text-white">
           All Demos
         </h2>
       </div>

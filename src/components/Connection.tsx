@@ -12,7 +12,6 @@ export const Connection: React.FC<ConnectionProps> = ({
   connectionStatus,
   loading,
   onConnect,
-  onDisconnect,
 }) => {
   const [url, setUrl] = useState('localhost:3710');
 
@@ -24,41 +23,21 @@ export const Connection: React.FC<ConnectionProps> = ({
   };
 
   if (connectionStatus.connected) {
-    return (
-      <div className="card">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="status-connected flex items-center gap-2">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-              Connected
-            </div>
-            <div className="text-sm text-gray-300">
-              {connectionStatus.url}
-            </div>
-          </div>
-          <button
-            onClick={onDisconnect}
-            className="btn-danger text-sm px-4 py-2"
-          >
-            Disconnect
-          </button>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
     <div className="card">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">
+      <div className="text-center mb-8">
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
           Connect to Demo Time
         </h2>
-        <p className="text-gray-400">Enter your Demo Time API server address</p>
+        <p className="text-sm md:text-base text-gray-400">Enter your Demo Time API server address</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label htmlFor="url" className="block text-sm font-semibold text-gray-300 mb-3">
+          <label htmlFor="url" className="block text-sm font-medium text-gray-300 mb-2">
             API Server URL
           </label>
           <input
@@ -67,60 +46,54 @@ export const Connection: React.FC<ConnectionProps> = ({
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="localhost:3710"
-            className="input-field w-full text-lg"
+            className="input-field w-full text-base md:text-lg"
             disabled={loading}
           />
           <p className="text-xs text-gray-500 mt-2">
-            Usually localhost:3710 when running Demo Time with API enabled
+            Usually localhost:3710 when running Demo Time
           </p>
         </div>
 
         {connectionStatus.error && (
-          <div className="bg-gradient-to-r from-red-900/50 to-red-800/50 border border-red-500/50 rounded-lg p-4">
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 text-red-400">⚠️</div>
-              <p className="text-red-300 font-medium">
-                Connection failed: {connectionStatus.error}
-              </p>
-            </div>
+          <div className="bg-red-900/30 border border-red-500/40 rounded-lg p-3">
+            <p className="text-red-300 text-sm">
+              {connectionStatus.error}
+            </p>
           </div>
         )}
 
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary w-full text-base md:text-lg py-3.5 md:py-4 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
-            <span className="flex items-center justify-center gap-3">
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <span className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               Connecting...
             </span>
           ) : (
-            <span className="flex items-center justify-center gap-2">
-              🔗 Connect to Demo Time
-            </span>
+            'Connect to Demo Time'
           )}
         </button>
       </form>
 
-      <div className="mt-8 bg-gray-800/30 border border-gray-700/30 rounded-lg p-4">
-        <h3 className="font-semibold text-[#FFD23F] mb-3 flex items-center gap-2">
-          <span className="text-lg">📋</span>
-          Setup Instructions
+      <div className="mt-6 bg-gray-800/20 border border-gray-700/30 rounded-lg p-4">
+        <h3 className="font-semibold text-[#FFD23F] text-sm mb-2">
+          Quick Setup
         </h3>
-        <ol className="text-sm text-gray-300 space-y-2">
+        <ol className="text-xs md:text-sm text-gray-400 space-y-1.5">
           <li className="flex items-start gap-2">
-            <span className="text-[#FFD23F] font-bold">1.</span>
-            Enable the API in Demo Time VS Code extension settings
+            <span className="text-[#FFD23F] font-semibold">1.</span>
+            <span>Enable API in Demo Time settings</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#FFD23F] font-bold">2.</span>
-            Enter the API URL shown in the extension
+            <span className="text-[#FFD23F] font-semibold">2.</span>
+            <span>Enter the API URL above</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#FFD23F] font-bold">3.</span>
-            Connect and start controlling your demos remotely
+            <span className="text-[#FFD23F] font-semibold">3.</span>
+            <span>Control demos remotely</span>
           </li>
         </ol>
       </div>
