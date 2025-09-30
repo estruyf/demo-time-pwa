@@ -9,24 +9,66 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/.*\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60
+              }
+            }
+          },
+          {
+            urlPattern: /\/api\/.*/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 5 * 60
+              }
+            }
+          }
+        ]
+      },
       manifest: {
         name: 'Demo Time Remote',
         short_name: 'DemoRemote',
-        description: 'Remote control for Demo Time VS Code extension',
-        theme_color: '#007acc',
-        background_color: '#1e1e1e',
+        description: 'Remote control for Demo Time live coding presentations',
+        theme_color: '#FFD23F',
+        background_color: '#202736',
         display: 'standalone',
         orientation: 'portrait',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
           },
           {
             src: 'pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ],
+        categories: ['productivity', 'developer tools'],
+        shortcuts: [
+          {
+            name: 'Next Demo',
+            short_name: 'Next',
+            description: 'Trigger the next demo',
+            url: '/?action=next',
+            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
           }
         ]
       }

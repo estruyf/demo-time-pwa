@@ -64,13 +64,13 @@ export const useApi = () => {
   );
 
   const runById = useCallback(
-    async (id: string, bringToFront = true) => {
+    async (stepIndex: number, bringToFront = true) => {
       if (!connectionStatus.connected || !connectionStatus.url) {
         throw new Error('Not connected to API');
       }
 
-      const url = new URL(`${connectionStatus.url}/api/runById`);
-      url.searchParams.set('id', id);
+      const url = new URL(`${connectionStatus.url}/api/runByIndex`);
+      url.searchParams.set('index', stepIndex.toString());
       url.searchParams.set('bringToFront', bringToFront.toString());
 
       const response = await fetch(url.toString());
@@ -81,13 +81,13 @@ export const useApi = () => {
     [connectionStatus],
   );
 
-  const refreshData = useCallback(async () => {
+  const refreshData = useCallback(async (silent = false) => {
     if (!connectionStatus.connected || !connectionStatus.url) {
       return;
     }
 
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const response = await fetch(`${connectionStatus.url}/api/demos`);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -103,7 +103,7 @@ export const useApi = () => {
       });
       setApiData(null);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [connectionStatus]);
 
@@ -120,7 +120,7 @@ export const useApi = () => {
     if (!connectionStatus.connected) return;
 
     const interval = setInterval(() => {
-      refreshData();
+      refreshData(true);
     }, 3000); // Poll every 3 seconds
 
     return () => clearInterval(interval);
