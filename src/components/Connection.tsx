@@ -50,7 +50,7 @@ export const Connection: React.FC<ConnectionProps> = ({
   return (
     <div className="card">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+        <h2 className="text-2xl font-bold text-white mb-2">
           Connect to Demo Time
         </h2>
         <p className="text-gray-400">Enter your Demo Time API server address</p>
@@ -104,22 +104,22 @@ export const Connection: React.FC<ConnectionProps> = ({
         </button>
       </form>
 
-      <div className="mt-8 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-lg p-4">
-        <h3 className="font-semibold text-blue-300 mb-3 flex items-center gap-2">
+      <div className="mt-8 bg-gray-800/30 border border-gray-700/30 rounded-lg p-4">
+        <h3 className="font-semibold text-[#FFD23F] mb-3 flex items-center gap-2">
           <span className="text-lg">📋</span>
           Setup Instructions
         </h3>
         <ol className="text-sm text-gray-300 space-y-2">
           <li className="flex items-start gap-2">
-            <span className="text-blue-400 font-bold">1.</span>
+            <span className="text-[#FFD23F] font-bold">1.</span>
             Enable the API in Demo Time VS Code extension settings
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-400 font-bold">2.</span>
+            <span className="text-[#FFD23F] font-bold">2.</span>
             Enter the API URL shown in the extension
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-400 font-bold">3.</span>
+            <span className="text-[#FFD23F] font-bold">3.</span>
             Connect and start controlling your demos remotely
           </li>
         </ol>

@@ -32,7 +32,7 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold text-white">
           All Demos
         </h2>
         <div className="flex items-center gap-3 text-sm">
@@ -60,9 +60,9 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
       ) : (
         <div className="space-y-6">
           {apiData.demoFiles.map((demoFile, fileIndex) => (
-            <div key={fileIndex} className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/50 rounded-xl p-4">
+            <div key={fileIndex} className="bg-gray-800/40 border border-gray-700/30 rounded-xl p-4">
               <h3 className="font-bold text-white mb-4 text-lg flex items-center gap-2">
-                <span className="text-blue-400">📄</span>
+                <span className="text-[#FFD23F]">📄</span>
                 {demoFile.filePath.split('/').pop() || demoFile.filePath}
               </h3>
 
@@ -79,10 +79,10 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
                       <div
                         key={demoIndex}
                         className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${isNext
-                            ? 'bg-gradient-to-r from-blue-900/40 to-blue-800/40 border-blue-500/50 shadow-lg shadow-blue-500/20'
+                            ? 'bg-[#FFD23F]/10 border-[#FFD23F]/40 shadow-lg'
                             : isExecuted
-                              ? 'bg-gradient-to-r from-green-900/30 to-green-800/30 border-green-600/50'
-                              : 'bg-gray-700/50 border-gray-600/50 hover:bg-gray-600/50'
+                              ? 'bg-green-900/20 border-green-600/40'
+                              : 'bg-gray-700/30 border-gray-600/40 hover:bg-gray-700/50'
                           }`}
                       >
                         <div className="flex-1 min-w-0">
@@ -141,10 +141,10 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
       {apiData.currentDemoFile && (
         <div className="mt-8 pt-6 border-t border-gray-600/50">
           <h3 className="text-lg font-semibold text-gray-300 mb-4 flex items-center gap-2">
-            <span className="text-green-400">🎯</span>
+            <span className="text-[#FFD23F]">🎯</span>
             Current Session
           </h3>
-          <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/50 rounded-lg p-4">
+          <div className="bg-gray-800/40 border border-gray-700/30 rounded-lg p-4">
             <p className="text-white font-medium">
               {apiData.currentDemoFile.filePath.split('/').pop()}
             </p>
