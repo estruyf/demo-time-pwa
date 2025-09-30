@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ApiData } from '../types/api';
 
 interface DemoListProps {
@@ -7,18 +7,12 @@ interface DemoListProps {
 }
 
 export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
-  const [loading, setLoading] = useState<string | null>(null);
-  const [bringToFront, setBringToFront] = useState(true);
-
   const handleRunDemo = async (id: string, title: string) => {
     try {
-      setLoading(id);
-      await onRunById(id, bringToFront);
+      await onRunById(id, true);
     } catch (error) {
       console.error('Failed to run demo:', error);
       alert(`Failed to run "${title}": ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setLoading(null);
     }
   };
 
@@ -31,22 +25,10 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">
           All Demos
         </h2>
-        <div className="flex items-center gap-3 text-sm">
-          <input
-            type="checkbox"
-            id="bringToFrontList"
-            checked={bringToFront}
-            onChange={(e) => setBringToFront(e.target.checked)}
-            className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
-          />
-          <label htmlFor="bringToFrontList" className="text-gray-300 font-medium">
-            Bring to front
-          </label>
-        </div>
       </div>
 
       {apiData.demoFiles.length === 0 ? (
@@ -73,61 +55,36 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
                   {demoFile.demos.map((demo, demoIndex) => {
                     const isExecuted = isCurrentlyExecuted(demo.id);
                     const isNext = isNextDemo(demo.id);
-                    const isLoading = loading === demo.id;
 
                     return (
                       <div
                         key={demoIndex}
-                        className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${isNext
-                            ? 'bg-[#FFD23F]/10 border-[#FFD23F]/40 shadow-lg'
-                            : isExecuted
-                              ? 'bg-green-900/20 border-green-600/40'
-                              : 'bg-gray-700/30 border-gray-600/40 hover:bg-gray-700/50'
+                        className={`flex items-center gap-3 py-3 transition-all duration-200 cursor-pointer hover:bg-gray-700/20 rounded-lg px-3 -mx-3 ${isNext
+                            ? 'bg-[#FFD23F]/10'
+                            : ''
                           }`}
+                        onClick={() => demo.id && handleRunDemo(demo.id, demo.title)}
                       >
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3">
-                            {isNext && (
-                              <span className="status-connected text-xs px-3 py-1 flex items-center gap-1">
-                                <span className="animate-pulse">●</span>
-                                NEXT
-                              </span>
-                            )}
-                            {isExecuted && (
-                              <span className="bg-gradient-to-r from-green-600 to-green-700 text-white text-xs px-3 py-1 rounded-full font-medium">
-                                ✓ Done
-                              </span>
-                            )}
-                            <span className="font-semibold text-white truncate">
-                              {demo.title}
-                            </span>
-                          </div>
-                          {demo.id && (
-                            <p className="text-xs text-blue-300 mt-2 font-mono">
-                              ID: {demo.id}
-                            </p>
+                        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                          {isExecuted ? (
+                            <div className="w-6 h-6 rounded-full bg-green-600/80 flex items-center justify-center">
+                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          ) : isNext ? (
+                            <div className="w-6 h-6 rounded-full border-2 border-[#FFD23F] flex items-center justify-center">
+                              <div className="w-3 h-3 bg-[#FFD23F] rounded-full"></div>
+                            </div>
+                          ) : (
+                            <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
                           )}
                         </div>
-
-                        <button
-                          onClick={() => handleRunDemo(demo.id, demo.title)}
-                          disabled={isLoading || !demo.id}
-                          className={`text-sm px-4 py-2 ml-4 rounded-lg font-semibold transition-all duration-200 ${!demo.id
-                              ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                              : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95'
-                            } disabled:opacity-50 disabled:cursor-not-allowed`}
-                        >
-                          {isLoading ? (
-                            <span className="flex items-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                              ...
-                            </span>
-                          ) : demo.id ? (
-                            '▶ Run'
-                          ) : (
-                            'No ID'
-                          )}
-                        </button>
+                        <span className={`font-medium text-base ${isNext ? 'text-white font-semibold' : isExecuted ? 'text-gray-400' : 'text-gray-200'}`}>
+                          {demo.title}
+                        </span>
                       </div>
                     );
                   })}
@@ -138,22 +95,6 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
         </div>
       )}
 
-      {apiData.currentDemoFile && (
-        <div className="mt-8 pt-6 border-t border-gray-600/50">
-          <h3 className="text-lg font-semibold text-gray-300 mb-4 flex items-center gap-2">
-            <span className="text-[#FFD23F]">🎯</span>
-            Current Session
-          </h3>
-          <div className="bg-gray-800/40 border border-gray-700/30 rounded-lg p-4">
-            <p className="text-white font-medium">
-              {apiData.currentDemoFile.filePath.split('/').pop()}
-            </p>
-            <p className="text-sm text-gray-400 mt-1">
-              {apiData.currentDemoFile.demo.length} demos executed
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
