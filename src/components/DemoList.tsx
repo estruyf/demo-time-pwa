@@ -31,21 +31,29 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
   };
 
   useEffect(() => {
-    if (nextItemRef.current && scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const element = nextItemRef.current;
+    const scrollToCenter = () => {
+      if (nextItemRef.current && scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        const element = nextItemRef.current;
 
-      const containerHeight = container.clientHeight;
-      const elementTop = element.offsetTop;
-      const elementHeight = element.clientHeight;
+        const containerRect = container.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
 
-      const scrollTo = elementTop - (containerHeight / 2) + (elementHeight / 2);
+        const relativeTop = elementRect.top - containerRect.top;
+        const currentScroll = container.scrollTop;
+        const elementMiddle = relativeTop + currentScroll + (elementRect.height / 2);
+        const containerMiddle = containerRect.height / 2;
 
-      container.scrollTo({
-        top: scrollTo,
-        behavior: 'smooth'
-      });
-    }
+        const scrollTo = elementMiddle - containerMiddle;
+
+        container.scrollTo({
+          top: scrollTo,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    setTimeout(scrollToCenter, 100);
   }, [apiData.nextDemo]);
 
   return (

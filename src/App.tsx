@@ -16,24 +16,25 @@ function App() {
   } = useApi();
 
   return (
-    <div className="min-h-screen bg-[#202736] text-white flex flex-col">
+    <div className="h-screen bg-[#202736] text-white flex flex-col overflow-hidden">
       <InstallPrompt />
-      <div className="container mx-auto px-4 py-6 max-w-4xl flex-shrink-0">
-        <header className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-14 h-14 bg-[#FFD23F] rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-2xl font-bold text-[#202736]">DT</span>
-            </div>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            Demo Time Remote
-          </h1>
-          <p className="text-lg text-gray-400">
-            Remote control for live coding presentations
-          </p>
-        </header>
 
-        <div className="space-y-6">
+      <div className="sticky top-0 z-10 bg-[#202736] border-b border-gray-700/30 flex-shrink-0">
+        <div className="container mx-auto px-4 py-6 max-w-4xl">
+          <header className="text-center mb-8">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-14 h-14 bg-[#FFD23F] rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-2xl font-bold text-[#202736]">DT</span>
+              </div>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Demo Time Remote
+            </h1>
+            <p className="text-lg text-gray-400">
+              Remote control for live coding presentations
+            </p>
+          </header>
+
           <Connection
             connectionStatus={connectionStatus}
             loading={loading}
@@ -44,7 +45,7 @@ function App() {
       </div>
 
       {connectionStatus.connected && apiData && (
-        <div className="container mx-auto px-4 max-w-4xl flex-1 overflow-hidden pb-32">
+        <div className="container mx-auto px-4 max-w-4xl flex-1 overflow-hidden">
           <DemoList
             apiData={apiData}
             onRunById={runById}
@@ -53,7 +54,7 @@ function App() {
       )}
 
       {connectionStatus.connected && apiData && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#1a1f2e] border-t border-gray-700/50 shadow-2xl">
+        <div className="flex-shrink-0 bg-[#1a1f2e] border-t border-gray-700/50 shadow-2xl">
           <div className="container mx-auto px-4 py-4 max-w-4xl">
             {apiData.nextDemo && (
               <div className="bg-gray-800/60 rounded-lg p-3 mb-3">
