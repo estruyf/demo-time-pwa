@@ -87,7 +87,7 @@ export const DemoList: React.FC<DemoListProps> = ({ apiData, onRunById }) => {
                 key={index}
                 ref={isNext ? nextItemRef : null}
                 className={`flex items-center gap-3 py-3 transition-all duration-200 hover:bg-gray-700/20 rounded-lg px-3 -mx-3 ${isNext ? 'bg-[#FFD23F]/10' : ''} ${step.id ? 'cursor-pointer' : ''}`}
-                onClick={step.id ? () => handleRunDemo(step.id) : undefined}
+                onClick={step.id ? () => handleRunDemo(step.id as string) : undefined}
               >
                 <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                   {isExecuted ? (
